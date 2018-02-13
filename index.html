@@ -10,7 +10,7 @@
 <body>
     <div class="container" style="margin-top: 5rem" id="app">
         <div class="row" style="margin-bottom: 1rem">
-            <div class="col-3">
+            <div class="col-3" style="text-align: right;">
                 <strong>Month</strong>
             </div>
             <div class="col-9">
@@ -18,51 +18,79 @@
             </div>
         </div>
         <div v-for="row in rows" class="row" style="margin-bottom: 0.4rem">
-            <div class="col-3">
-                {{row.date}}
+            <div class="col-3" style="text-align: right;">
+                {{getFormattedDate(row.date)}}
             </div>
             <div class="col-9">
-                <span v-if="row.progress === 0">Not yet started</span>
-                <span v-else-if="row.progress === 33">In Farmer Review</span>
-                <span v-else-if="row.progress === 66">In Progress</span>
-                <span v-else-if="row.progress === 100">Completed</span>
+                <span v-if="getTimeBasedProgress(row) < 33">Not yet started<span v-if="getDaysDiff(row) > 7"> and still no payout sheet</span></span>
+                <span v-else-if="getTimeBasedProgress(row) < 66">In Farmer Review<span v-if="getDaysDiff(row) > 7">, still waiting</span></span>
+                <span v-else-if="getTimeBasedProgress(row) < 100"><span v-if="getDaysDiff(row) > 7">Still </span>In Progress</span>
+                <span v-else-if="getTimeBasedProgress(row) === 100">Completed</span>
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped"
                          role="progressbar"
-                         aria-valuenow="{{row.progress}}"
+                         aria-valuenow="{{getTimeBasedProgress(row)}}"
                          aria-valuemin="0"
                          aria-valuemax="100"
-                         v-bind:style="{ width: row.progress + '%' }"
+                         v-bind:style="{ width: getTimeBasedProgress(row) + '%' }"
                          v-bind:class="{
-                            'bg-success': row.progress === 100,
-                            'bg-warning': row.progress === 33,
-                            'progress-bar-animated': row.progress !== 100,
-                            }"
+                            'bg-success': getTimeBasedProgress(row) === 100,
+                            'bg-warning': getTimeBasedProgress(row) < 66 && getTimeBasedProgress(row) >= 33,
+                            'bg-danger': getTimeBasedProgress(row) < 33 && getTimeBasedProgress(row) >= 0,
+                            'progress-bar-animated': getTimeBasedProgress(row) !== 100,
+                         }"
                     ></div>
                 </div>
             </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src="data.js"></script>
     <script>
       var app = new Vue({
         el: '#app',
+        created: function () {
+          this.rows = rows;
+        },
         data:{
-          rows: [
-            {date: 'Dec 2017', progress: 100},
-            {date: 'Jan 2018', progress: 33},
-            {date: 'Feb 2018', progress: 0},
-            {date: 'Mar 2018', progress: 0},
-            {date: 'Apr 2018', progress: 0},
-            {date: 'May 2018', progress: 0},
-            {date: 'Jun 2018', progress: 0},
-            {date: 'Jul 2018', progress: 0},
-            {date: 'Aug 2018', progress: 0},
-            {date: 'Sep 2018', progress: 0},
-            {date: 'Oct 2018', progress: 0},
-            {date: 'Nov 2018', progress: 0},
-            {date: 'Dec 2018', progress: 0},
-          ]
+          rows: [],
+        },
+        methods: {
+          getFormattedDate: function (date) {
+            return moment(date).format('MMM YYYY');
+          },
+          getDaysDiff: function (row) {
+            var now = moment();
+            var date = moment();
+            if (row.payoutStarted) {
+              date = moment(row.payoutStarted);
+            } else if (row.sheetPosted) {
+              date = moment(row.sheetPosted);
+            } else {
+              date = moment(row.date).add(1, 'month');
+            }
+            return now.diff(date, 'days');
+          },
+          getTimeBasedProgress: function (row) {
+            if (row.payoutDone) {
+              return 100;
+            }
+            var progress = 0;
+            if (row.payoutStarted) {
+              progress = 66;
+            } else if (row.sheetPosted) {
+              progress = 33;
+            }
+            var diffDays = this.getDaysDiff(row);
+            if (diffDays > 7) {
+              diffDays = 7;
+            } else if (diffDays < 0) {
+              diffDays = 0;
+            }
+            const progressPerDay = 32 / 7;
+            return progress + (progressPerDay * diffDays);
+          },
         },
       })
     </script>
