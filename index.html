@@ -23,7 +23,7 @@
             </div>
             <div class="col-9">
                 <span v-if="getTimeBasedProgress(row) < 33">Not yet started<span v-if="getDaysDiff(row) > 7"> and still no payout sheet</span></span>
-                <span v-else-if="getTimeBasedProgress(row) < 66">In Farmer Review<span v-if="getDaysDiff(row) > 7">, still waiting</span><span v-if="getDaysDiff(row) > 14">, any minute now</span></span>
+                <span v-else-if="getTimeBasedProgress(row) < 66">In Farmer Review<span v-if="getDaysDiff(row) > 7">, still waiting<span v-if="getDaysDiff(row) > 14">, any minute now</span></span></span>
                 <span v-else-if="getTimeBasedProgress(row) < 100"><span v-if="getDaysDiff(row) > 7">Still </span>In Progress</span>
                 <span v-else-if="getTimeBasedProgress(row) === 100">Completed</span>
                 <div class="progress">
