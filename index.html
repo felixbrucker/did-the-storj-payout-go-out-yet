@@ -22,7 +22,10 @@
                 {{row.date}}
             </div>
             <div class="col-9">
-                {{row.statustext}}
+                <span v-if="row.progress === 0">Not yet started</span>
+                <span v-else-if="row.progress === 33">In Farmer Review</span>
+                <span v-else-if="row.progress === 66">In Progress</span>
+                <span v-else-if="row.progress === 100">Completed</span>
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped"
                          role="progressbar"
@@ -46,19 +49,19 @@
         el: '#app',
         data:{
           rows: [
-            {date: 'Dec 2017', statustext: 'Completed', progress: 100},
-            {date: 'Jan 2018', statustext: 'In Farmer Review', progress: 33},
-            {date: 'Feb 2018', statustext: 'Not yet started', progress: 0},
-            {date: 'Mar 2018', statustext: 'Not yet started', progress: 0},
-            {date: 'Apr 2018', statustext: 'Not yet started', progress: 0},
-            {date: 'May 2018', statustext: 'Not yet started', progress: 0},
-            {date: 'Jun 2018', statustext: 'Not yet started', progress: 0},
-            {date: 'Jul 2018', statustext: 'Not yet started', progress: 0},
-            {date: 'Aug 2018', statustext: 'Not yet started', progress: 0},
-            {date: 'Sep 2018', statustext: 'Not yet started', progress: 0},
-            {date: 'Oct 2018', statustext: 'Not yet started', progress: 0},
-            {date: 'Nov 2018', statustext: 'Not yet started', progress: 0},
-            {date: 'Dec 2018', statustext: 'Not yet started', progress: 0},
+            {date: 'Dec 2017', progress: 100},
+            {date: 'Jan 2018', progress: 33},
+            {date: 'Feb 2018', progress: 0},
+            {date: 'Mar 2018', progress: 0},
+            {date: 'Apr 2018', progress: 0},
+            {date: 'May 2018', progress: 0},
+            {date: 'Jun 2018', progress: 0},
+            {date: 'Jul 2018', progress: 0},
+            {date: 'Aug 2018', progress: 0},
+            {date: 'Sep 2018', progress: 0},
+            {date: 'Oct 2018', progress: 0},
+            {date: 'Nov 2018', progress: 0},
+            {date: 'Dec 2018', progress: 0},
           ]
         },
       })
