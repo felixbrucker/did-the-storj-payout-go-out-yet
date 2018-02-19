@@ -1,6 +1,6 @@
 var rows = [
   {date: '2017-12-01', sheetPosted: '2018-01-11', payoutStarted: '2018-01-25', payoutDone: true},
-  {date: '2018-01-01', sheetPosted: '2018-02-01'},
+  {date: '2018-01-01', sheetPosted: '2018-02-01', payoutStarted: '2018-02-19'},
   {date: '2018-02-01'},
   {date: '2018-03-01'},
   {date: '2018-04-01'},
