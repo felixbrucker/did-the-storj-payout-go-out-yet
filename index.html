@@ -19,7 +19,8 @@
         </div>
         <div v-for="row in rows" class="row" style="margin-bottom: 0.4rem">
             <div class="col-3" style="text-align: right;">
-                {{getFormattedDate(row.date)}}
+                <a v-if="row.sheetUrl" v-bind:href="row.sheetUrl" target="_blank">{{getFormattedDate(row.date)}}</a>
+                <span v-else>{{getFormattedDate(row.date)}}</span>
             </div>
             <div class="col-9">
                 <span v-if="getTimeBasedProgress(row) < 33">Nothing has been done yet<span v-if="getDaysDiff(row) > 7">, still waiting for the payout sheet</span></span>
@@ -29,7 +30,7 @@
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped"
                          role="progressbar"
-                         aria-valuenow="{{getTimeBasedProgress(row)}}"
+                         v-bind:aria-valuenow="getTimeBasedProgress(row)"
                          aria-valuemin="0"
                          aria-valuemax="100"
                          v-bind:style="{ width: getTimeBasedProgress(row) + '%' }"
