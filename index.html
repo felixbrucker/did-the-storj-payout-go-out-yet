@@ -25,7 +25,7 @@
             <div class="col-9">
                 <span v-if="getTimeBasedProgress(row) < 33">Nothing has been done yet<span v-if="getDaysDiff(row) > 7">, still waiting for the payout sheet</span></span>
                 <span v-else-if="getTimeBasedProgress(row) < 66">In Farmer Review<span v-if="getDaysDiff(row) > 7">, still waiting<span v-if="getDaysDiff(row) > 14">, any minute now</span></span></span>
-                <span v-else-if="getTimeBasedProgress(row) < 100">Payout <span v-if="getDaysDiff(row) > 7">still </span>in Progress</span>
+                <span v-else-if="getTimeBasedProgress(row) < 100">Payout <span v-if="getDaysDiff(row) > 3">still </span>in Progress</span>
                 <span v-else-if="getTimeBasedProgress(row) === 100">Completed</span>
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped"
@@ -77,19 +77,25 @@
             if (row.payoutDone) {
               return 100;
             }
+            var diffDays = this.getDaysDiff(row);
             var progress = 0;
+            var progressPerDay = 32 / 7;
             if (row.payoutStarted) {
               progress = 66;
+              progressPerDay = 32 / 3;
+              if (diffDays > 3) {
+                diffDays = 3;
+              }
             } else if (row.sheetPosted) {
               progress = 33;
+              if (diffDays > 7) {
+                diffDays = 7;
+              }
             }
-            var diffDays = this.getDaysDiff(row);
-            if (diffDays > 7) {
-              diffDays = 7;
-            } else if (diffDays < 0) {
+            if (diffDays < 0) {
               diffDays = 0;
             }
-            const progressPerDay = 32 / 7;
+
             return progress + (progressPerDay * diffDays);
           },
         },
