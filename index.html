@@ -95,8 +95,12 @@
             if (diffDays < 0) {
               diffDays = 0;
             }
+            var timeBasedProgress = progressPerDay * diffDays;
+            if (timeBasedProgress > 32) {
+              timeBasedProgress = 32;
+            }
 
-            return progress + (progressPerDay * diffDays);
+            return progress + timeBasedProgress;
           },
         },
       })
