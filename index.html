@@ -23,10 +23,11 @@
                 <span v-else>{{getFormattedDate(row.date)}}</span>
             </div>
             <div class="col-9">
-                <span v-if="getTimeBasedProgress(row) < 33">Nothing has been done yet<span v-if="getDaysDiff(row) > 7">, still waiting for the payout sheet</span><span v-if="getDaysDiff(row) > 10">, nobody at Storj Labs cares</span></span>
-                <span v-else-if="getTimeBasedProgress(row) < 66">In Farmer Review<span v-if="getDaysDiff(row) > 7">, still waiting</span><span v-if="getDaysDiff(row) > 10">, nobody at Storj Labs cares</span></span>
-                <span v-else-if="getTimeBasedProgress(row) < 100">Payout <span v-if="getDaysDiff(row) > 7">still </span><span v-if="getDaysDiff(row) > 14">stuck and nobody at Storj Labs cares</span><span v-if="getDaysDiff(row) <= 14">in Progress</span></span>
-                <span v-else-if="getTimeBasedProgress(row) === 100">Completed</span>
+                <span v-if="getTimeBasedProgress(row) < 33  && !row.paused">Nothing has been done yet<span v-if="getDaysDiff(row) > 7">, still waiting for the payout sheet</span><span v-if="getDaysDiff(row) > 10">, nobody at Storj Labs cares</span></span>
+                <span v-else-if="getTimeBasedProgress(row) < 66 && !row.paused">In Farmer Review<span v-if="getDaysDiff(row) > 7">, still waiting</span><span v-if="getDaysDiff(row) > 10">, nobody at Storj Labs cares</span></span>
+                <span v-else-if="getTimeBasedProgress(row) < 100 && !row.paused">Payout <span v-if="getDaysDiff(row) > 7">still </span><span v-if="getDaysDiff(row) > 14">stuck and nobody at Storj Labs cares</span><span v-if="getDaysDiff(row) <= 14">in Progress</span></span>
+                <span v-else-if="getTimeBasedProgress(row) === 100 && !row.paused">Completed</span>
+                <span v-else-if="row.paused"><span v-if="getDaysDiff(row) > 7">Still </span>Paused</span>
                 <div class="progress">
                     <div class="progress-bar progress-bar-striped"
                          role="progressbar"
@@ -36,7 +37,7 @@
                          v-bind:style="{ width: getTimeBasedProgress(row) + '%' }"
                          v-bind:class="{
                             'bg-success': getTimeBasedProgress(row) === 100,
-                            'bg-warning': getTimeBasedProgress(row) < 66 && getTimeBasedProgress(row) >= 33,
+                            'bg-warning': (getTimeBasedProgress(row) < 66 && getTimeBasedProgress(row) >= 33) || row.paused,
                             'bg-danger': getTimeBasedProgress(row) < 33 && getTimeBasedProgress(row) >= 0,
                             'progress-bar-animated': getTimeBasedProgress(row) !== 100,
                          }"
