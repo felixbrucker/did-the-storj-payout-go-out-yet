@@ -65,7 +65,9 @@
           getDaysDiff: function (row) {
             var now = moment();
             var date = moment();
-            if (row.payoutStarted) {
+            if (row.payoutResumed) {
+              date = moment(row.payoutResumed);
+            } else if (row.payoutStarted) {
               date = moment(row.payoutStarted);
             } else if (row.sheetPosted) {
               date = moment(row.sheetPosted);
