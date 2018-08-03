@@ -5,7 +5,7 @@ var rows = [
   {date: '2018-03-01', sheetPosted: '2018-04-30', payoutStarted: '2018-05-01', sheetUrl: 'https://docs.google.com/spreadsheets/d/1lcqSg68mlYim7lLh44De6BXlGcgCUDjGYy_LuNiWcyc/edit?usp=sharing', payoutResumed: '2018-07-09', payoutDone: true},
   {date: '2018-04-01', sheetPosted: '2018-05-07', payoutStarted: '2018-06-02', sheetUrl: 'https://docs.google.com/spreadsheets/d/1cCtaEiLeQhPkRGoq-_egR_AoM4pwmxkShJHhhmlINI8/edit?usp=sharing', payoutDone: true},
   {date: '2018-05-01', sheetPosted: '2018-06-05', payoutStarted: '2018-06-20', payoutDone: true},
-  {date: '2018-06-01', sheetPosted: '2018-07-04', payoutStarted: '2018-07-23'},
+  {date: '2018-06-01', sheetPosted: '2018-07-04', payoutStarted: '2018-07-23', payoutDone: true},
   {date: '2018-07-01'},
   {date: '2018-08-01'},
   {date: '2018-09-01'},
