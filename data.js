@@ -10,6 +10,4 @@ var rows = [
   {date: '2018-08-01', sheetPosted: '2018-09-11', sheetUrl: 'https://payout.storj.io', payoutStarted: '2018-09-11', payoutDone: true},
   {date: '2018-09-01', sheetPosted: '2018-10-02', sheetUrl: 'https://payout.storj.io', payoutStarted: '2018-10-04', payoutDone: true},
   {date: '2018-10-01', sheetPosted: '2018-11-05', sheetUrl: 'https://payout.storj.io', payoutStarted: '2018-11-07', payoutDone: true},
-  {date: '2018-11-01'},
-  {date: '2018-12-01'},
 ];
